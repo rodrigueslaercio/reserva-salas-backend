@@ -1,4 +1,6 @@
 class ReservasController < ApplicationController
+  before_action :logado?, only: [ :new, :create, :index ]
+
   def index
     @reservas = Reserva.all
 
