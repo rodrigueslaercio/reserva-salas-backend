@@ -7,7 +7,7 @@ class UsuarioSessionsController < ApplicationController
     @usuario = Usuario.find_by(email: params[:usuario][:email])
 
     if @usuario && @usuario.authenticate(params[:usuario][:password])
-      session[usuario_id] = @usuario.id
+      session[:usuario_id] = @usuario.id
 
       render json: { message: "Login realizado com sucesso", usuario: @usuario }, status: :ok
     else
