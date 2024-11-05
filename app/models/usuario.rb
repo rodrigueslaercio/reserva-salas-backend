@@ -3,4 +3,5 @@ class Usuario < ApplicationRecord
 
   has_many :reservas
   validates :email, presence: true, uniqueness: true
+  validates :nome, presence: true
 end
