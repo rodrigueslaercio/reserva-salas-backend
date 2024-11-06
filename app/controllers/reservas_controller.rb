@@ -2,7 +2,8 @@ class ReservasController < ApplicationController
   before_action :logado?, only: [ :new, :create, :index ]
 
   def index
-    @reservas = Reserva.all
+    @usuario_logado = usuario_logado
+    @reservas = Reserva.where(usuario_id: @usuario_logado.id)
 
     render json: @reservas
   end
@@ -19,6 +20,7 @@ class ReservasController < ApplicationController
 
   def create
     @reserva = Reserva.new(reserva_params)
+    @reserva.usuario_id = @usuario_logado.id
 
     if @reserva.save
       render json: @reserva, status: :created, location: @reserva
@@ -42,7 +44,7 @@ class ReservasController < ApplicationController
   def horas_predefinidas
     hora_selecionada = params[:hora_selecionada]
     hora_inicio = "08:00"
-    hora_fim = "17:00"
+    hora_fim = "23:00"
     hora_agora = Time.now.strftime("%H:%M")
 
     hora_inicio_time = Time.parse(hora_inicio)
@@ -68,6 +70,6 @@ class ReservasController < ApplicationController
   private
 
     def reserva_params
-      params.require(:reserva).permit(:usuario_id, :sala_id, :data, :hora)
+      params.require(:reserva).permit(:sala_id, :data, :hora)
     end
 end
